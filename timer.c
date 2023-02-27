@@ -1,5 +1,11 @@
 #include <kipr/wombat.h>
-#include <timer.h>
+#include </home/root/Documents/KISS/Default User/Wombat/include/functions.h>
+#include </home/root/Documents/KISS/Default User/Wombat/include/consts.h>
+#include </home/root/Documents/KISS/Default User/Wombat/include/timer.h>
+#include </home/root/Documents/KISS/Default User/Wombat/include/threads.h>
+#include </home/root/Documents/KISS/Default User/Wombat/include/run_functs.h>
+#include </home/root/Documents/KISS/Default User/Wombat/include/clone_consts.h>
+
 float time_arr[6];
 
 void reset_timer(int ind){

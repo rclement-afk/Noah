@@ -1,189 +1,285 @@
+#include <kipr/botball.h>
 #include <kipr/wombat.h>
-#include <functions.h>
-#include <consts.h>
-
-int Rspd;
-int Lspd;
-
-float t_bias = 0.85;
-//54.3
-float d_bias = 66;
-/*
-void find_cube(){
-    //far to close, when hit far again, go back
-    int min = buffer(fET);
-    int max = 2090; //close
-    int old = buffer(fET);
-    int new;
-    int corner;
-    //new val - old val : if old val > new val (3 times consequtively?), reached end of corner
-	while(1){
-    	while(new - old >= new){
-        	in_turn(2,400);
-            new = buffer(ET);
-            if(new - old < new){
-            	corner = old;
-                int i = 0;
-                while(i<0){
-                	in_turn(2,100);
-                    if(buffer(ET) < 
-                }
-            }
-            old = new;
-        }
-    }
-*/
-void stop_it(){
-	mav(ML,0);
-    mav(MR, 0);
-}
-
-float itt(int tpr, float inches){
-    float tpi;
-	tpi = tpr/wheel;
-    printf("%f\n",tpi*inches);
-    return tpi*inches;
-}
-void ratio(int spd){
-    float math = spd*d_bias;
-    float final = math/500;
-    float diff;
-    printf("final %f\n",final);
-	if(tprL > tprR){diff = tprL-tprR; printf("diff1 %f\n",diff); Lspd = diff * final; Rspd = 0;}
-    else if(tprR > tprL){diff = tprR-tprL; Rspd = diff * final; Lspd = 0;}
-    else{return;}
-}
-
-void in_drive(int spd, float des){
-    cmpc(ML);
-    cmpc(MR);
-    ratio(spd);
-	int rspd = spd - Rspd;
-	int lspd = spd - Lspd;
-    float r = itt(tprR,des);
-    float l = itt(tprL,des);
-    printf("r %f\n",r);
-    printf("l %f\n",l);
-    printf("rspd %d\n",rspd);
-    printf("lspd %d\n",lspd);
-    while(1){
-        if(spd > 0){
-            if(gmpc(ML) < l){
-    			mav(ML, lspd);
-   			}else{mav(ML,0);}
-        	if(gmpc(MR) < r){
-    			mav(MR, rspd);
-   			}else{mav(MR,0);}
-            if(gmpc(ML) > l || gmpc(MR) > r){break;}
-   		 }
-        if(spd < 0){
-            if(gmpc(ML) > -1*l){
-    			mav(ML, lspd);
-   			}else{mav(ML,0);}
-        	if(gmpc(MR) > -1*r){
-    			mav(MR, rspd);
-   			}else{mav(MR,0);}
-            if(gmpc(ML) < -1*l || gmpc(MR) < -1*r){break;}
-   		 }
-    }
-    stop_it();
-}
-void in_turn(int deg,int spd){
-    cmpc(ML);
-    cmpc(MR);
-    int rspd;
-    int lspd;
-    float ipd = (turn_rad*2*3.14)/360;
-    //float rpd = ipd/wheel;
-    //printf("ipd %f\n",ipd);
-	if(deg > 0){
-        int ticks = ipd*deg; 
-        int ticks1 = t_bias*(itt(tprL,ticks));
-        rspd = -1*spd; 
-        lspd = spd;
-        while(gmpc(ML) < ticks1){
-        	mav(ML, lspd);
-            mav(MR, rspd);
-        }
-        if(gmpc(ML) >= ticks1){stop_it();}
-     }
-    else if(deg < 0){
-        int ticks = ipd*-1*deg; 
-    	int ticks1 = t_bias*(itt(tprR,ticks));
-        rspd = spd; 
-        lspd = -1*spd;
-        while(gmpc(MR) < ticks1){
-        	mav(ML, lspd);
-            mav(MR, rspd); 
-        }
-        if(gmpc(MR) >= ticks1){stop_it();}
-    }
-    else{return;}
+#include </home/root/Documents/KISS/Default User/Wombat/include/functions.h>
+#include </home/root/Documents/KISS/Default User/Wombat/include/consts.h>
+#include </home/root/Documents/KISS/Default User/Wombat/include/timer.h>
+#include </home/root/Documents/KISS/Default User/Wombat/include/threads.h>
+void run_2(){
+slow_servo(arm,short_arm,1);
+    slow_servo(claw,claw_empty,1);
+    left_turn(500);
+//move(0,0);
+  move(1000,1000);
+    msleep(870);
+    move(0,0);
+   
+slow_servo(claw,claw_grab-100,1);
+ // move(0,0);
+    slow_servo(arm,tall_arm+600,1);
+   move(0,0);
+   move(-1000,-1000);
+  msleep(600);
+    right_turn(1105);//1650   
+    /////////////////////////////. comment stuff monday
+    move(1000,1000);
+    msleep(750);
+   // move(-400,-400);
+   // msleep(1500);
+   move(0,0);
+slow_servo(arm,1300,1);
+    slow_servo(claw,claw_empty,1);
     
+   
+   move(-1100,-1100);
+    msleep(1000);
+   square_up(1,400);
+    /////////////////////////////// 
+    left_turn(1370);
+    move(-800,-800);
+    msleep(250);
+  move(0,0);
+    slow_servo(arm,short_arm+150,1);
+    move(1000,1000);
+    msleep(1100);
+    move(0,0);
+    slow_servo(claw,claw_grab-100,1);
+  move(0,0);
+    slow_servo(arm,tall_arm,1);
+    move(-600,-600);
+    msleep(2000);
+    right_turn(650);//500
+    ///////////////////////////////////////////////// here
+   move(0,0);
+   slow_servo(arm,short_arm,1);
+    slow_servo(claw,claw_empty,1);
+    slow_servo(arm,tall_arm,1);
+    move(0,0);
+    move(-600,-600);
+    msleep(2300);
+    square_up(2,450);
+    move(-200,-200);
+    msleep(2000);
+  slow_servo(arm,short_arm,1);
+    move(600,600);
+    msleep(2500);
+   move(0,0);
+    slow_servo(claw,claw_grab,1);
+    right_turn(900);
+slow_servo(claw,claw_empty,1);
+    slow_servo(arm,tall_arm,1);
+    left_turn(800);
+    move(0,0);
+    move(-600,-600);
+    msleep(3000);
+    square_up(1,450);
+    move(-300,-300);
+    msleep(2000);
+    square_up(2,350);
+    move(0,0);
+    move(-400,-400);
+    msleep(5000);
+    move(0,0);
+   left_turn(1300);
+    move(-400,-400);
+    msleep(1800);
+    move(0,0);
+    slow_servo(arm,short_arm,1);
+  move(0,0);
+    move(300,300);
+    msleep(3000);
+    slow_servo(claw,claw_grab,1);
+    slow_servo(arm,tall_arm,1);
+   move(300,300);
+    msleep(2000);
+    left_turn(1400);
+  move(0,0);
+    move(-600,-600);
+    msleep(3500);
+    move(0,0);
+    square_up(2,400);
+    move(-200,-200);
+    msleep(2000);
+    move(0,0);
+    square_up(2,350);
+    move(0,0);
+    left_turn(2300);
+    move(0,0);
+    slow_servo(arm,short_arm,1);
+    slow_servo(claw,claw_empty,1);
+    slow_servo(arm,short_arm,1);
+    slow_servo(arm,900,1);
+    
+    
+    
+    
+//move(0,0);
+  //  move(400,400);
+  //  msleep(3000);
+   // move(0,0);
+   // slow_servo(arm,short_arm-850,1);
+   // slow_servo(claw,claw_grab,1);
+   // slow_servo(arm,tall_arm,1);
+   // right_turn(1000);
+  ///////////// // move(600,520);
+   //msleep(6300);//4000
+   //move(0,0);
+   // move(0,0);
+   // move(0,0);
+    //slow_servo(arm,short_arm,1);
+  // left_turn(2300);
+  //  move(-600,-600);
+  //  msleep(4000);
+
+    
+    
+    
+    
+    
+    
+  //  slow_servo(claw,claw_grab+700,1);
+
+
+}
+
+
+/*int  calibrate(){
+
+if(analog(0)<1500&&analog(1)<1500)
+{     
+	printf("analog not plugged in");
+}
+	else(analog(0)>1500&&analog(1)>1500)
+    {
+    printf("analog plugged in");
+}
+}
+void b_drive(int time)
+{
+   
+
+}
+
+
+*/
+
+void left_turn(int tic)
+{   
+    cmpc(right);
+    cmpc(left);
+    while(gmpc(right)<tic)
+    {
+        motor(right, 50);
+        msleep(2);
+    }
+    motor(left, 0);
+    msleep(30);
+}
+
+
+
+
+void right_turn(int tic)
+{
+    cmpc(left);
+    cmpc(right);
+    while(gmpc(left)<tic)
+    {
+        motor(left, 50);
+        msleep(2);
+    }
+    motor(left, 0);
+    msleep(30);
+
+    cmpc(right);
+
+}
+void grab_poms_2(){
+
+   
+  
+
+}
+
+int itt(float inches){
+    //inches to ticks
+    int ticks_per_inch = 220; //placeholder
+    int product = inches * ticks_per_inch;
+    return product;
+}
+void wait_light(){
+    while(digital(BL) != 1){msleep(50);}
+    /*
+  while(analog(light) > 200){
+    msleep(50);
+  }
+  */
 }
 
 void line_follow(int side, int speed){
-  //line to left, right sensor: 1
-  //line to right, left sensor: 2
-  switch(side){
-      case 1: {
-          while(1){
-            if(buffer(rIR) < midpoint){move(speed-(speed*0.046), speed);}
-            if(buffer(rIR) > midpoint){move(0,0); break;}
-            if(buffer(lIR) > midpoint){move(speed, -1*(speed/4));}
-            if(buffer(lIR) < midpoint){move(-1*(speed/4), speed);} 
-          }
-      } 
-      case 2: {
-           while(1){
-            if(buffer(lIR) < midpoint){move(speed, speed-(speed*0.046));}
-            if(buffer(lIR) > midpoint){move(0,0); break;}
-            if(buffer(rIR) < midpoint){move(speed, -1*(speed/4));}
-            if(buffer(rIR) > midpoint){move(-1*(speed/4), speed);} 
-          }
-      }
-  }
+    //line to left, right sensor: 1
+    //line to right, left sensor: 2
+    switch(side){
+        case 1: {
+            while(1){
+                if(buffer(rIR) < midpoint){move(speed-(speed*0.046), speed);}
+                if(buffer(rIR) > midpoint){move(0,0); break;}
+                if(buffer(lIR) > midpoint){move(speed, -1*(speed/4));}
+                if(buffer(lIR) < midpoint){move(-1*(speed/4), speed);} 
+            }
+        } 
+        case 2: {
+            while(1){
+                if(buffer(lIR) < midpoint){move(speed, speed-(speed*0.046));}
+                if(buffer(lIR) > midpoint){move(0,0); break;}
+                if(buffer(rIR) < midpoint){move(speed, -1*(speed/4));}
+                if(buffer(rIR) > midpoint){move(-1*(speed/4), speed);} 
+            }
+        }
+    }
 }
 int buffer(int sensor){
-  int value = 0;
-  int total = 0;
-  int i = 0;
-  while (i<5){
-    i++;
-    value = analog(sensor);
-    msleep(3);
-    total+=value;
-  };
-  total=total/5;
-  return total;
+    int value = 0;
+    int total = 0;
+    int i = 0;
+    while (i<5){
+        i++;
+        value = analog(sensor);
+        msleep(3);
+        total+=value;
+    };
+    total=total/5;
+    return total;
 };
 
 void slow_servo(int part, int des, int speed) {
-  int cur = get_servo_position(part);
-  if(des < 50){des=50;};if(des > 2000){des=2000;};
-  if (cur < des) {
-    enable_servo(part);
-    while (cur != des) {
-    	cur+=speed;
-        set_servo_position(part, cur);
-        msleep(1);
+    int cur = get_servo_position(part);
+    if(des < 50){des=50;};if(des > 2000){des=2000;};
+    if (cur < des) {
+        enable_servo(part);
+        while (cur != des) {
+            cur+=speed;
+            set_servo_position(part, cur);
+            msleep(1);
+        };
+        disable_servo(part);
     };
-    disable_servo(part);
-  };
-  if (cur > des){
-    enable_servo(part);
-    while (cur != des) {
-    	cur-=speed;
-        set_servo_position(part, cur);
-        msleep(1);
+    if (cur > des){
+        enable_servo(part);
+        while (cur != des) {
+            cur-=speed;
+            set_servo_position(part, cur);
+            msleep(1);
+        };
+        disable_servo(part);
     };
-    disable_servo(part);
-  };
 };
 
 void move(int l_speed,int r_speed){//basic moving function thats based off mav
-    mav(MR,r_speed-Rspd);
-    mav(ML,l_speed-Lspd);
+//int    l_speed=65;
+   // int r_speed=65;
+    mav(MR,r_speed);
+    mav(ML,l_speed);
+   
 };
 
 void a_cel(){
@@ -216,43 +312,46 @@ void de_cel(){
 //////////////////////////////////////////////////////////////////
 int black_speed;
 void square_up(int ending,int speed){
+  int l_midpoint=2100;
+    int r_midpoint=2150;
     if(speed > 0 && speed < 400){//failcheck for speed
         black_speed = speed;
     }
     else{black_speed = 1*speed;}
-    ratio(speed);
     if(ending == 1 || ending == 2){
         while(1){
-            if(buffer(lIR)<midpoint && buffer(rIR)<midpoint){ //move to black
+            if(buffer(lIR)<l_midpoint && buffer(rIR)<r_midpoint){ //move to black
                 move(speed,speed);
             }
-            if(buffer(rIR)>midpoint){ //right wheel back if black
-                move(speed,(speed*(-.25)));
+            if(buffer(rIR)>r_midpoint){ //right wheel back if black
+                move(speed,(speed*(-.83)));
             }
-            if(buffer(lIR)>midpoint){//left wheel back if black
-                move((speed*(-.25)),speed);
+            if(buffer(lIR)>l_midpoint){//left wheel back if black
+                move((speed*(-.53)),speed);
             }
-            if(buffer(lIR)>midpoint && buffer(rIR)>midpoint) { //if both sensors on black, stop
+            if(buffer(lIR)>l_midpoint && buffer(rIR)>r_midpoint) { //if both sensors on black, stop
                 move(0,0);
                 break;
             }
         }
     }
-   
+
     switch(ending){
         case 1: //if ending on white:
             {
                 while(1){
-                    if(buffer(lIR)>midpoint && buffer(rIR)>midpoint){ //move forward if black
+                    
+                    if(buffer(lIR)>l_midpoint && buffer(rIR)>r_midpoint){ //move forward if black
                         move(black_speed,black_speed);
                     }
-                    if(buffer(lIR)<midpoint){ //right wheel forward if left sensor is white
-                        move(0,black_speed);
+                    if(buffer(lIR)<l_midpoint){ //left wheel back if left sensor is white
+                        move(-0.33*black_speed,black_speed);
                     }
-                    if(buffer(rIR)<midpoint){ //left wheel forward if right sensor is white 
-                        move(black_speed,0);
+                    if(buffer(rIR)<r_midpoint){ //right wheel back if right sensor is white 
+                        
+                        move(black_speed,-0.33*black_speed);
                     }
-                    if(buffer(lIR)<midpoint && buffer(rIR)<midpoint){ //if white, stop
+                    if(buffer(lIR)<l_midpoint && buffer(rIR)<r_midpoint){ //if white, stop
                         move(0,0);
                         break;
                     }
@@ -261,16 +360,16 @@ void square_up(int ending,int speed){
         case 2: //if ending on black:
             {
                 while(1){
-                    if(buffer(lIR)>midpoint && buffer(rIR)>midpoint){ //move backward if black
+                    if(buffer(lIR)>l_midpoint && buffer(rIR)>r_midpoint){ //move backward if black
                         move(-1*black_speed,-1*black_speed);
                     }
-                    if(buffer(lIR)<midpoint){ //right wheel backward if white
-                        move(0,-1*black_speed);
+                    if(buffer(lIR)<l_midpoint){ //right wheel backward if white
+                        move(0,-.33*black_speed);
                     }
-                    if(buffer(rIR)<midpoint){ //left wheel backward if white
-                        move(-1*black_speed,0);
+                    if(buffer(rIR)<r_midpoint){ //left wheel backward if white
+                        move(-.33*black_speed,0);
                     }
-                    if(buffer(lIR)<midpoint && buffer(rIR)<midpoint){ //if white, stop
+                    if(buffer(lIR)<l_midpoint && buffer(rIR)<r_midpoint){ //if white, stop
                         move(0,0);
                         break;
                     }
@@ -279,7 +378,6 @@ void square_up(int ending,int speed){
     }
 }
 
-/* gyro lib
 
 double bias = 0.0;
 
@@ -372,70 +470,70 @@ void drive_with_gyro(int speed, double time){//gyro using clock time not distanc
     move(0,0);
 };
 //////////////////////////////////////////////////////////////////
-void turn_with_gyro(int speed, int deg, int frz){//turning using the gyro we use calibrate still to find zero then set theta to a know value instead of 0
-    //frz is if wheel freezes when turning. 1 is yes
-    double theta = 0;
-    int targetTheta; 
-    int turn;
-    if(frz == 1){turn = 0;}else{turn = -1*speed;}
-    switch(deg){
-        case -40:
-            targetTheta = target_theta_m40;
-            move(turn,speed);
-            break;
-        case -30:
-            targetTheta = target_theta_m30;
-            move(turn,speed);
-            break;
-        case -22:
-            targetTheta = target_theta_m22;
-            move(turn,speed);
-            break;
-        case 0:
-            targetTheta = target_theta_mrings;
-            move(turn,speed);
-            break;
-        case 1:
-            targetTheta = target_theta_rings;
-            move(speed,turn);
-            break;
-        case 45:
-            targetTheta = target_theta_45;
-            move(speed,turn);
-            break;
-        case 90:
-            targetTheta = target_theta_90;
-            move(speed,turn);
-            break;
-        case 180:
-            targetTheta = target_theta_180;
-            move(speed,turn);
-            break;
-        case -45:
-            targetTheta = target_theta_m45;
-            move(turn,speed);
-            break;
-        case -90:
-            targetTheta = target_theta_m90;
-            move(turn,speed);
-            break;
-        case -180:
-            targetTheta = target_theta_m180;
-            move(turn,speed);
-            break;
-        default:
-            targetTheta = 0;
-            break;
-    }  
-    while(theta < targetTheta){
-        msleep(10);
-        theta += abs(gyro_z() - bias) * 10;
-        printf("Turn Gyro Z: %d\n",gyro_z());
-    }
-    move(0,0);
-    msleep(50);
-    
-}
+//void turn_with_gyro(int speed, int deg, int frz){//turning using the gyro we use calibrate still to find zero then set theta to a know value instead of 0
+//    //frz is if wheel freezes when turning. 1 is yes
+//   double theta = 0;
+//   int targetTheta; 
+//    int turn;
+//   if(frz == 1){turn = 0;}else{turn = -1*speed;}
+//  switch(deg){
+//      case -40:
+//         targetTheta = target_theta_m40;
+//          move(turn,speed);
+//           break;
+//      case -30:
+//       targetTheta = target_theta_m30;
+//        move(turn,speed);
+//         break;
+//     case -22:
+////         targetTheta = target_theta_m22;
+//         move(turn,speed);
+//          break;
+//      case 0:
+//          targetTheta = target_theta_mrings;
+//          move(turn,speed);
+//          break;
+//       case 1:
+//           targetTheta = target_theta_rings;
+//          move(speed,turn);
+//          break;
+//      case 45:
+//            targetTheta = target_theta_45;
+//           move(speed,turn);
+//           break;
+//      case 90:
+//            targetTheta = target_theta_90;
+//           move(speed,turn);
+//           break;
+//       case 180:
+//          targetTheta = target_theta_180;
+//           move(speed,turn);
+//           break;
+//      case -45:
+//          targetTheta = target_theta_m45;
+//          move(turn,speed);
+//      break;
+//  case -90:
+//      targetTheta = target_theta_m90;
+//      move(turn,speed);
+//      break;
+//   case -180:
+//       targetTheta = target_theta_m180;
+//       move(turn,speed);
+//       break;
+//    default:
+//       targetTheta = 0;
+//       break;
+// }  
+//  while(theta < targetTheta){
+//    msleep(10);
+//    theta += abs(gyro_z() - bias) * 10;
+//      printf("Turn Gyro Z: %d\n",gyro_z());
+//  }
+//  move(0,0);
+//  msleep(50);
+
+//}
 
 //////////////////////////////////////////////////////////////////
 void PID_gyro_drive(int speed, double time){
@@ -458,4 +556,42 @@ void PID_gyro_drive(int speed, double time){
     move(0,0);
 };
 ////////////////////////////////////////////////////////
-*/
+void grab_poms(){
+   
+
+}
+///////////////////////////
+void grab_poms_left(){
+}
+//////////////////////////
+void drive_with_ticks(int tic){
+    int lspeed=speed;
+    //   int rspeed=speed;
+    speed=40;
+    cmpc(left);
+    cmpc(right);
+    motor(left,speed);
+    motor(right, speed);
+    while(gmpc(left)<tic||gmpc(right)<tic)
+    {
+        motor(left,lspeed);
+        motor(right,lspeed);
+        if(gmpc(left)>gmpc(right))
+        {
+            lspeed=speed-2;
+            rspeed=speed+2;
+        }
+        else if(gmpc(right)>gmpc(left))
+        {
+            lspeed=speed+2;
+            rspeed=speed-2;
+        }
+        else
+        {
+            lspeed=speed;
+            rspeed=speed;
+        }
+    }
+}
+
+
