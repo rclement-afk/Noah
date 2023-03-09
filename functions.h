@@ -12,4 +12,4 @@ double calibrate_gyro();
 void drive_with_gyro(int speed, double time);
 void turn_with_gyro(int speed, int deg);
 void PID_gyro_drive(int speed,double time);
-
+void find_cube();
