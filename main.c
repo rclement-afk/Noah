@@ -70,7 +70,7 @@ int main(){
     slow_servo(2,1450,2);
     //grab pom 4
     create_backward(15,main_speed);
-    rotate(20);
+    rotate(30);
     square_up_back_create(1,-1*main_speed);
     create_backward(5,main_speed);
     square_up_back_create(1,main_speed);
@@ -80,7 +80,7 @@ int main(){
     create_backward(5,main_speed);
     slow_servo(3,550,2);
     //drop pom 4
-    rotate(150);
+    rotate(160);
     create_forward(20,main_speed);
     slow_servo(2,1870,2);
     msleep(50);
@@ -97,7 +97,7 @@ int main(){
     //drop pom 5
 ///////poms sorted//////////////////////////////////////////////////////////////////////////////////////
     rotate(-90);
-    create_backward(10,main_speed);
+    create_backward(15,main_speed);
     square_up_back_create(2,main_speed);
     create_forward(8,main_speed);
     rotate(90);
@@ -117,7 +117,7 @@ int main(){
     create_backward(15,main_speed);
     square_up_front_create(3,main_speed);
     create_forward(15,main_speed);
-    rotate(90);
+    rotate(89);
     slow_servo(2,1750,2);
     while((get_create_lcliff_amt()>cliff)){
     	create_drive_straight(main_speed);
@@ -128,24 +128,38 @@ int main(){
     slow_servo(3,621,2);
     slow_servo(2,1615,2);
     slow_servo(3,1100,2);
-    slow_servo(2,1460,2);
+    slow_servo(2,1600,2);
     rotate(-5);
     while(analog(1)<1700){
-    rotate(1);
+    	create_spin_CW(50);
+        msleep(15);
     }
-    slow_servo(2,1615,2);
+    create_spin_CCW(50);
+        msleep(15);
     create_forward(5,main_speed);
     slow_servo(3,621,2);
-    create_backward(20,main_speed);/*
+    create_backward(20,main_speed);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
     rotate(80);
     slow_servo(2,1100,2);
     create_backward(10,main_speed);
     square_up_back_create(2,main_speed);
-    create_forward(15,main_speed);
+    create_forward(20,main_speed);
     rotate(90);
-    square_up_front_create(2,main_speed);
-    rotate(180);
+    square_up_front_create(1,main_speed);
+    create_forward(15,main_speed);
+    rotate(-90);
+    square_up_back_create(2,-1*main_speed);
+    slow_servo(2,1170,2);
+    slow_servo(0,400,2);
+    while(analog(1)<1560){
+    	create_drive_straight(main_speed);
+        msleep(15);
+    }
+    rotate(-90);
+    msleep(15);
+    create_forward(5,main_speed);
+    slow_servo(0,1265,2);
     cube_reading=buffer(0);
     printf("nothing: %d\n",cube_reading);
     while(buffer(0)>cube_reading-65){
@@ -159,7 +173,7 @@ int main(){
     }
     create_stop();
     slow_servo(2,450,2);
-    slow_servo(0,1265,2);
+    
     slow_servo(3,700,2);
     create_backward(10,main_speed);
     rotate(90);
@@ -168,7 +182,7 @@ int main(){
     create_forward(10,main_speed);
     slow_servo(3,1100,2);
     slow_servo(2,600,2);
-    create_backward(10,main_speed);*/
+    create_backward(10,main_speed);
     create_disconnect();
     return 0;
 }
